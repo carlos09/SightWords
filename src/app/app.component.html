@@ -1,34 +1,96 @@
-<main class="main">
-  <div class="content pl-4 pr-4">
-    <h1 class="sw-text">Welcome to Sight Words</h1>
-    <div class="p-4 sm:mr-64">
-      <div class="p-4 border-1 border-default border-dashed rounded-base">
-        <div class="grid grid-cols-3 gap-4 mb-4">
-          <div
-            class="flex items-center justify-center h-24 rounded-base bg-neutral-secondary-soft"
-          >
-            <app-sight-word-card></app-sight-word-card>
-            <div class="left-side"></div>
-            <div class="divider" role="separator" aria-label="Divider"></div>
-          </div>
-        </div>
-      </div>
+<div class="app-shell">
+  <!-- MAIN -->
+  <div class="main-stage p-8 sm:mr-64">
+    <h1 class="title sw-text">Welcome to Sight Words</h1>
+
+    <!-- CARD -->
+    <div class="card-container">
+      <app-sight-word-card [word]="currentWord" size="large" />
+    </div>
+
+    <!-- RECORDING -->
+    @if (isProcessingSpeech) {
+    <p class="listening">🧠 Listening...</p>
+    }
+
+    <!-- VOICE BUTTON -->
+    <div class="voice-button-container">
+      <button
+        mat-fab
+        color="primary"
+        class="record-button"
+        (mousedown)="startRecording()"
+        (mouseup)="stopRecording()"
+        (mouseleave)="stopRecording()"
+        (touchstart)="startRecording()"
+        (touchend)="stopRecording()"
+      >
+        @if (recording) {
+        <mat-icon class="record-icon">mic</mat-icon>
+        } @else {
+        <mat-icon class="record-icon">mic_none</mat-icon>
+        }
+      </button>
+
+      <p class="voice-label">
+        @if (recording) { 🔴 Recording... } @else { Hold to Speak }
+      </p>
+    </div>
+
+    <!-- RESULTS -->
+    @if (result) {
+
+    <p class="result">
+      You said:
+      <strong>{{ result }}</strong>
+    </p>
+
+    } @if (isCorrect) {
+
+    <p class="correct">✅ Good job!</p>
+
+    } @else if (result) {
+
+    <p class="incorrect">❌ Try again</p>
+
+    }
+
+    <!-- CONTROLS -->
+    <div class="controls">
+      <button mat-stroked-button color="primary" (click)="previousCard()">
+        <mat-icon>arrow_back</mat-icon>
+        Previous
+      </button>
+
+      <button mat-flat-button color="primary" (click)="nextCard()">
+        Next
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
     </div>
   </div>
 
+  <!-- SIDEBAR -->
   <aside
-    id="default-sidebar"
-    class="fixed top-0 right-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0"
+    id="separator-sidebar"
+    class="fixed top-0 right-0 z-40 w-64 h-screen transition-transform sm:translate-x-0"
     aria-label="Sidebar"
   >
-    <div
-      class="h-full px-3 py-8 overflow-y-auto bg-neutral-primary-soft border-e border-default"
-    >
-      <ul class="space-y-2 font-medium">
-        <li></li>
-        cards will go here
-      </ul>
-    </div>
+    <h3>Words</h3>
+
+    <ul>
+      @for (word of words; track word.word; let i = $index) {
+
+      <li
+        [class.active]="i === currentIndex"
+        (click)="currentIndex = i"
+        class="border-t border-default pt-4 pb-4 pl-2 pr-2"
+      >
+        <app-sight-word-card [word]="word" size="small" />
+      </li>
+
+      }
+    </ul>
   </aside>
-</main>
+</div>
+
 <router-outlet />

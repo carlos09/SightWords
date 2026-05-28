@@ -1,58 +1,11 @@
-@if (isProcessingSpeech) {
-<p class="listening">🧠 Listening...</p>
-}
-
-<mat-card class="flash-card" appearance="outlined">
-  <mat-card-content>
+<mat-card
+  class="flash-card"
+  [class.large]="size === 'large'"
+  appearance="outlined"
+>
+  <mat-card-content class="card-content">
     <h1 class="word">
-      {{ currentWord?.word }}
+      {{ word?.word }}
     </h1>
   </mat-card-content>
 </mat-card>
-
-<!-- Voice Button -->
-<div class="voice-button-container">
-  <button
-    mat-fab
-    color="primary"
-    (mousedown)="startRecording()"
-    (mouseup)="stopRecording()"
-    (mouseleave)="stopRecording()"
-    (touchstart)="startRecording()"
-    (touchend)="stopRecording()"
-  >
-    @if (recording) {
-    <mat-icon>mic</mat-icon>
-    } @else {
-    <mat-icon>mic_none</mat-icon>
-    }
-  </button>
-
-  <p class="voice-label">
-    @if (recording) { 🔴 Recording... } @else { Hold to Speak }
-  </p>
-</div>
-
-<!-- Result -->
-@if (result) {
-<p class="result">
-  You said: <strong>{{ result }}</strong>
-</p>
-} @if (isCorrect) {
-<p class="correct">✅ Good job!</p>
-} @else if (result) {
-<p class="incorrect">❌ Try again</p>
-}
-
-<!-- Navigation Controls -->
-<div class="controls">
-  <button mat-stroked-button color="primary" (click)="previousCard()">
-    <mat-icon>arrow_back</mat-icon>
-    Previous
-  </button>
-
-  <button mat-flat-button color="primary" (click)="nextCard()">
-    Next
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
-</div>
