@@ -4,11 +4,14 @@ import { SightWordService } from '../../services/sight-words.service';
 import { AudioRecorderService } from '../../services/audio-recorder.service';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-sight-word-card',
   standalone: true,
-  imports: [],
+  imports: [MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './sight-word-card.component.html',
   styleUrl: './sight-word-card.component.scss',
 })
