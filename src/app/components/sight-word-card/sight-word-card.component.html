@@ -1,0 +1,30 @@
+@if (isProcessingSpeech) {
+<p>🧠 Listening...</p>
+}
+
+<div class="flash-card">
+  {{ currentWord?.word }}
+</div>
+
+<button
+  (mousedown)="startRecording()"
+  (mouseup)="stopRecording()"
+  (touchstart)="startRecording()"
+  (touchend)="stopRecording()"
+>
+  @if (recording) { 🔴 Recording... } @else { 🎤 Hold to Speak }
+</button>
+
+@if (result) {
+<p>You said: {{ result }}</p>
+} @if (isCorrect) {
+<p class="correct">✅ Good job!</p>
+} @else if (result) {
+<p class="incorrect">❌ Try again</p>
+}
+
+<div class="controls">
+  <button (click)="previousCard()">Previous</button>
+
+  <button (click)="nextCard()">Next</button>
+</div>
